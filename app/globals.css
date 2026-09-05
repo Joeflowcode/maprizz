@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter), "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-inter), "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --color-ink: #16120e;
+  --color-ink-soft: #211c16;
+  --color-brand: #632c10;
+  --color-cream: #f7f3ec;
+  --color-cream-deep: #ede5d8;
+  --color-accent: #ff8b3d;
+  --color-accent-deep: #f0742a;
+  --color-mist: #bdb5a9;
+  --color-stone: #5d564d;
+  --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-ticker: ticker 48s linear infinite;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-deep);
+  outline-offset: 3px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.rule {
+  border-top: 1px solid color-mix(in oklab, var(--color-ink) 15%, transparent);
+}
+
+.shadow-lift {
+  box-shadow: 0 30px 80px -30px color-mix(in oklab, var(--color-ink) 45%, transparent);
+}
+
+.grain {
+  isolation: isolate;
+  position: relative;
+}
+
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.grain > * {
+  position: relative;
+  z-index: 1;
+}
+
+.surface-glow {
+  background: radial-gradient(
+    70% 60% at 85% 0%,
+    color-mix(in oklab, var(--color-accent) 14%, transparent),
+    transparent 70%
+  );
+}
+
+.ticker {
+  display: flex;
+  width: max-content;
+  animation: var(--animate-ticker);
+}
+
+.ticker:hover {
+  animation-play-state: paused;
+}
+
+.rise {
+  animation: var(--animate-rise);
+}
+
+.rise-2 {
+  animation: var(--animate-rise);
+  animation-delay: 0.12s;
+}
+
+.rise-3 {
+  animation: var(--animate-rise);
+  animation-delay: 0.24s;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-icon {
+  transition: transform 0.2s ease;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.field-input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--color-ink) 20%, transparent);
+  background: white;
+  padding: 0.75rem 1rem;
+  font-size: 16px;
+  color: var(--color-ink);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input::placeholder {
+  color: color-mix(in oklab, var(--color-stone) 60%, transparent);
+}
+
+.field-input:focus {
+  border-color: var(--color-ink);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 25%, transparent);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ticker {
+    width: auto;
+    flex-wrap: wrap;
+    animation: none;
+  }
+
+  .rise,
+  .rise-2,
+  .rise-3,
+  .faq-icon {
+    animation: none !important;
+    transition: none !important;
+  }
+}
