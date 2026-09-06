@@ -15,7 +15,7 @@ export default function ServicesPage() {
       <PageHero
         label="Monthly plans"
         title="Get found. Get trusted. Get chosen."
-        description="Cards make it easy to reach you. These plans make sure that when someone looks you up, they like what they see. We run your Google presence and website every month so you can run the business."
+        description="Your Google profile, website, and reviews should make it easier to choose your business. Get a clear monthly scope and one person to call when something needs attention."
       >
         <ButtonLink href="/audit">Get My Free Audit</ButtonLink>
         <ButtonLink href="#plans" variant="secondary">
@@ -30,7 +30,7 @@ export default function ServicesPage() {
             Pick the piece you&apos;re missing, or hand us all of it.
           </h2>
           <p className="mt-4 text-lg text-stone">
-            No setup fees. No long contracts. Prices are per business location.
+            Setup is included. Google Foundations is month to month. Website and Local Growth plans have a 6-month initial term, then continue month to month. Prices are per business location.
           </p>
           <div className="mt-10">
             <ServicePlanGrid />
@@ -48,32 +48,32 @@ export default function ServicesPage() {
             {[
               {
                 title: "Google Business Profile",
-                copy: "The listing is usually the first thing a customer sees, and most are half-finished. We fill in every field, add real photos every week, answer every review and keep hours, services and categories current so Google keeps showing you.",
+                copy: "We review the categories, services, hours, description, and contact details on your profile, then maintain it with the updates and real photos you provide.",
                 bullets: [
-                  "Complete profile in week one",
-                  "Weekly posts + photos",
-                  "Every review answered within 48 hours",
-                  "Review stand + tap tracking included",
+                  "One business location",
+                  "4 posts per month using your photos",
+                  "Up to 20 review replies per month",
+                  "One review stand and review-link setup",
                 ],
               },
               {
                 title: "A better website",
-                copy: "One job: turn a visit into a call, a text or a booking. Loads instantly on a phone, says what you do and where in the first screen, and puts the phone number where a thumb lands.",
+                copy: "A mobile-friendly website with clear service information and an easy way to call, request a quote, or reach your booking page. Build timing is agreed after we receive your content and access.",
                 bullets: [
-                  "Designed and built in 30 days",
-                  "Hosting, updates and edits handled",
-                  "Wired to your Maprizz card and profile",
+                  "Up to 5 pages in the initial website",
+                  "Hosting + up to 2 small edits per month",
+                  "Call, quote, and booking links included",
                   "You own the domain and content",
                 ],
               },
               {
                 title: "Local SEO",
-                copy: "Not tricks. A page for each service and each town you serve, written so Google and a real person both understand it, plus the technical basics most local sites skip.",
+                copy: "Useful service and service-area content, clear page titles, and technical basics that help customers and search engines understand your business. We prioritize real services and locations, rather than duplicate town pages.",
                 bullets: [
-                  "Service + service-area pages",
-                  "Schema, speed and mobile fixes",
-                  "Citations and profile consistency",
-                  "Monthly ranking and call report",
+                  "Service-area content within your page allowance",
+                  "Page titles, structure, and mobile performance",
+                  "Consistent business details",
+                  "Reporting on available website and profile activity",
                 ],
               },
             ].map((item) => (
@@ -106,7 +106,7 @@ export default function ServicesPage() {
       </section>
 
       <CtaBand
-        eyebrow="Tap. Done."
+        eyebrow="Start with a free audit"
         title="Find out what's costing you customers."
         description="Request a free audit. We'll look at your Google listing and website and reply with the fixes that matter most, whether or not you buy a plan."
         primaryHref="/audit"

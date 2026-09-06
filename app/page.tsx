@@ -1,245 +1,73 @@
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { ArrowDown, ArrowRight, Check, MapPin, MousePointer2, Search, Star, Wrench } from "lucide-react";
 import { MarketingShell } from "@/components/layout/marketing-shell";
-import {
-  CtaBand,
-  FaqList,
-  ProductGrid,
-  SectionLabel,
-  ServicePlanGrid,
-  Ticker,
-} from "@/components/marketing/sections";
-import { TapDemo } from "@/components/profile/tap-demo-inner";
-import { NfcCard, PhoneFrame, ProfileScreen } from "@/components/profile/profile-parts";
+import { FaqList, ProductGrid, ServicePlanGrid } from "@/components/marketing/sections";
 import { ButtonLink } from "@/components/ui/button";
-import { homeFaqs } from "@/lib/catalog";
-import { cascadeAutoDetail } from "@/lib/demo-profile";
-import { industries, site } from "@/lib/site";
+import { servicesFaqs } from "@/lib/catalog";
+
+const services = [
+  { icon: Search, number: "01", title: "Be easier to find.", label: "GOOGLE BUSINESS PROFILE", copy: "Accurate services, fresh photos, current hours, and a profile that gives nearby customers a reason to take a closer look.", detail: "Profile setup · Ongoing updates · Local visibility" },
+  { icon: MousePointer2, number: "02", title: "Make the next step obvious.", label: "WEBSITES + LOCAL SEO", copy: "A fast website that explains what you do, shows where you work, and makes calling or requesting a quote simple on any phone.", detail: "Clear service pages · Mobile design · Quote requests" },
+  { icon: Star, number: "03", title: "Let good work build trust.", label: "REVIEWS + TAP CARDS", copy: "Make it easy for customers to leave an honest review and keep your contact details handy. One tap, with a QR code as backup.", detail: "Review stands · Smart business cards · Review replies" },
+];
 
 export default function HomePage() {
   return (
     <MarketingShell>
-      <section className="grain surface-glow overflow-hidden bg-ink text-cream">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-12 lg:items-center lg:py-24">
-          <div className="rise lg:col-span-6">
-            <p className="label text-mist">{site.tagline}</p>
-            <p className="mt-3 text-sm text-cream/80">
-              NFC cards + review stands for local business
-            </p>
-            <h1 className="mt-4 font-display text-[clamp(2.5rem,8vw,5rem)] font-semibold leading-[0.95] tracking-[-0.05em]">
-              Your business. One tap away.
-            </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-cream/75">
-              Smart NFC cards and review stands that make it ridiculously easy for
-              customers to find, contact, and review your business.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/order" size="lg">
-                {site.cta.primary}
-                <ArrowRight className="h-4 w-4" />
-              </ButtonLink>
-              <ButtonLink href="/demo" variant="light" size="lg">
-                {site.cta.secondary}
-              </ButtonLink>
+      <section className="growth-hero">
+        <div className="growth-container hero-layout">
+          <div className="hero-copy rise">
+            <p className="growth-eyebrow"><MapPin size={15} aria-hidden="true" /> BASED IN BEND. BUILT FOR LOCAL BUSINESS.</p>
+            <h1>Your next<br />customer is<br /><span>looking for you.</span></h1>
+            <p className="hero-description">You do great work. We help people find it—with a stronger Google presence, a better website, and an easier way to earn reviews.</p>
+            <div className="hero-actions">
+              <ButtonLink href="/audit" size="lg">Get my free business audit <ArrowRight size={18} aria-hidden="true" /></ButtonLink>
+              <a className="text-link" href="#how-it-works">See how it works <ArrowDown size={16} aria-hidden="true" /></a>
             </div>
-            <p className="mt-4 text-sm text-mist">{site.compatibility}</p>
+            <p className="hero-reassurance">A personal review of your business. No obligation.</p>
+            <div className="hero-bottom"><span className="mini-rule" /><p>More than a website.<br /><strong>A clearer path from search to customer.</strong></p></div>
           </div>
-
-          <div className="rise-2 lg:col-span-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
-              <NfcCard
-                businessName={cascadeAutoDetail.name}
-                code={cascadeAutoDetail.tapCode}
-              />
-              <PhoneFrame className="mx-auto lg:mx-0">
-                <ProfileScreen data={cascadeAutoDetail} compact interactive={false} />
-              </PhoneFrame>
+          <div className="hero-visual rise-2">
+            <div className="hero-image">
+              <Image src="/images/local-craft.jpg" alt="A craftsperson hand-finishing timber in a workshop" fill priority sizes="(max-width: 800px) 100vw, 48vw" className="object-cover" />
+              <div className="image-caption"><Wrench size={17} aria-hidden="true" /><span>FOR THE PEOPLE<br /><strong>WHO DO THE WORK.</strong></span></div>
+            </div>
+            <div className="journey-note">
+              <span className="note-kicker">YOUR CUSTOMER’S NEXT STEPS</span>
+              <div><span><Search size={19} aria-hidden="true" />Find you</span><ArrowRight size={15} aria-hidden="true" /><span><Star size={19} aria-hidden="true" />Trust you</span><ArrowRight size={15} aria-hidden="true" /><span><MousePointer2 size={19} aria-hidden="true" />Contact you</span></div>
             </div>
           </div>
         </div>
       </section>
-
-      <Ticker items={industries} />
-
-      <section id="how-it-works" className="scroll-mt-20 bg-cream py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionLabel>01 How it works</SectionLabel>
-          <h2 className="mt-3 font-display text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-            Three steps. Then it just works.
-          </h2>
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {[
-              {
-                step: "1",
-                title: "We build it.",
-                copy: "Add your logo, business information, website and links. We program the card and set up your permanent Maprizz URL.",
-              },
-              {
-                step: "2",
-                title: "They tap it.",
-                copy: "A customer taps the card or scans the QR code. No app to download, nothing to type.",
-              },
-              {
-                step: "3",
-                title: "They connect.",
-                copy: "Your website, contact info, directions, booking page or review link opens instantly.",
-              },
-            ].map((item) => (
-              <article
-                key={item.step}
-                className="rounded-3xl border border-ink/10 bg-white/70 p-7 shadow-sm"
-              >
-                <p className="label text-stone">{item.step}</p>
-                <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.03em]">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-stone">{item.copy}</p>
-              </article>
-            ))}
-          </div>
+      <div className="industry-strip"><div className="growth-container"><p>LOCAL WORK.<br /><strong>REAL BUSINESSES.</strong></p><ul aria-label="Businesses we help"><li>Home services</li><li>Contractors</li><li>Auto detailers</li><li>Barbers & salons</li><li>Local shops</li></ul></div></div>
+      <section className="growth-section" id="services">
+        <div className="growth-container">
+          <div className="section-heading"><div><p className="growth-eyebrow">GOOD WORK SHOULD GET NOTICED</p><h2>Give people a reason<br />to choose <em>you.</em></h2></div><p>Your customers check Google, read reviews, and visit your website. We make those pieces work together.</p></div>
+          <div className="service-story-grid">{services.map(({icon:Icon,...item})=><article key={item.number}><div className="service-top"><Icon size={27} strokeWidth={1.5} aria-hidden="true" /><span>{item.number}</span></div><p className="growth-eyebrow">{item.label}</p><h3>{item.title}</h3><p>{item.copy}</p><div className="service-detail">{item.detail}</div></article>)}</div>
         </div>
       </section>
-
-      <section className="border-y border-ink/10 bg-cream-deep py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionLabel>02 Interactive demo</SectionLabel>
-          <div className="mt-3 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-            <div>
-              <h2 className="font-display text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-                Tap to call. Tap to book. Tap to review.
-              </h2>
-              <p className="mt-4 text-lg leading-relaxed text-stone">
-                Press the button and watch a Smart Business Card open a Maprizz
-                profile. Every button on that screen is one the customer can use with
-                one thumb.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <ButtonLink href="/demo">Open the full demo</ButtonLink>
-                <ButtonLink href="/p/cascade-auto-detail" variant="secondary">
-                  View the live sample profile
-                </ButtonLink>
-              </div>
-            </div>
-            <TapDemo data={cascadeAutoDetail} code={cascadeAutoDetail.tapCode} compact />
-          </div>
+      <section className="audit-feature" id="how-it-works">
+        <div className="growth-container audit-layout">
+          <div><p className="growth-eyebrow">START WITH CLARITY</p><h2>Find the gaps.<br />Make a plan.<br /><span>Get back to work.</span></h2><p>Before recommending a plan, we look at how your business shows up online. You get a short, useful list of what to improve first.</p><ButtonLink href="/audit" size="lg">Show me what to improve <ArrowRight size={18} aria-hidden="true" /></ButtonLink></div>
+          <ol className="process-list">
+            <li><span>01</span><div><h3>Send us your business.</h3><p>Share your business name, town, and website or Google listing. No passwords needed.</p></div></li>
+            <li><span>02</span><div><h3>See your opportunities.</h3><p>We review your profile, website, and review process. You get priorities explained in plain English.</p></div></li>
+            <li><span>03</span><div><h3>Choose what we handle.</h3><p>Pick a focused service or the complete plan. Each month, see the work completed and the metrics available.</p></div></li>
+          </ol>
         </div>
       </section>
-
-      <section id="pricing" className="scroll-mt-20 bg-cream py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionLabel>03 Products</SectionLabel>
-          <h2 className="mt-3 font-display text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-            One card. One price. No subscription.
-          </h2>
-          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-stone">
-            Every product includes a permanent Maprizz URL, a QR backup and the
-            ability to change where it points later.
-          </p>
-          <div className="mt-10">
-            <ProductGrid />
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-ink text-cream py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionLabel>04 Need help with your Google presence?</SectionLabel>
-          <h2 className="mt-3 max-w-4xl font-display text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-            The card gets them to your door. We make sure they pick you.
-          </h2>
-          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-cream/75">
-            Most local businesses lose customers before the first call: an incomplete
-            Google listing, a slow website, no reviews in months. Maprizz runs that for
-            you, month to month.
-          </p>
-          <ul className="mt-8 grid gap-4 sm:grid-cols-3">
-            {[
-              ["GBP", "Google Business Profile", "Complete, active and answered."],
-              ["WEB", "A better website", "Fast, mobile-first, built to convert."],
-              ["SEO", "Local SEO", "Show up for the services and towns you serve."],
-            ].map(([tag, title, copy]) => (
-              <li key={tag} className="rounded-3xl border border-cream/10 bg-white/[0.04] p-6">
-                <p className="label text-accent">{tag}</p>
-                <h3 className="mt-2 font-display text-xl font-semibold">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-cream/75">{copy}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="bg-cream py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <section className="growth-section" id="pricing">
+        <div className="growth-container">
+          <div className="section-heading"><div><p className="growth-eyebrow">CLEAR SCOPE. ONE MONTHLY PRICE.</p><h2>A plan for your<br /><em>next chapter.</em></h2></div><p>Start with the part you need, or bring your Google presence, website, and reviews together. Pricing is per business location.</p></div>
           <ServicePlanGrid />
-          <p className="mt-8 text-center text-[15px] text-stone">
-            Every plan starts with a free audit of your Google Business Profile and
-            website. Cards are still one-time; plans are optional.{" "}
-            <Link href="/services#plans" className="font-semibold text-brand hover:underline">
-              Compare plans in detail
-            </Link>
-          </p>
+          <div className="pricing-footnote"><p>Setup included. Website plans have a 6-month initial term.<br />Paid advertising and ad spend are not included.</p><Link href="/services" className="text-link">Compare the details <ArrowRight size={16} aria-hidden="true" /></Link></div>
         </div>
       </section>
-
-      <section className="border-y border-ink/10 bg-cream-deep py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionLabel>05 What you get after the tap</SectionLabel>
-          <h2 className="mt-3 font-display text-4xl font-semibold tracking-[-0.04em]">
-            Turn real-world conversations into customers.
-          </h2>
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {[
-              [
-                "Taps, not guesses",
-                "See total taps, the last 7 days and the last 30 days for your card and your review stand.",
-              ],
-              [
-                "Change anything, anytime",
-                "Destination, phone number, links, logo. The URL on the card never changes.",
-              ],
-              [
-                "Honest by design",
-                "We show review-link taps. We never claim to count reviews Google doesn't report.",
-              ],
-            ].map(([title, copy]) => (
-              <article key={title} className="rounded-3xl border border-ink/10 bg-white/70 p-7">
-                <h3 className="font-display text-2xl font-semibold tracking-[-0.03em]">
-                  {title}
-                </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-stone">{copy}</p>
-              </article>
-            ))}
-          </div>
-          <p className="mt-8 max-w-3xl text-[15px] leading-relaxed text-stone">
-            Every card points to a permanent short URL such as{" "}
-            <code className="rounded bg-white px-1.5 py-0.5 font-mono text-sm">
-              maprizz.com/t/A91XKD
-            </code>
-            . Change your website, phone number or review link from your{" "}
-            <Link href="/dashboard" className="font-semibold text-brand hover:underline">
-              dashboard
-            </Link>{" "}
-            and the card keeps working. No reprogramming.
-          </p>
-        </div>
-      </section>
-
-      <section className="bg-cream py-16 sm:py-24">
-        <div className="mx-auto max-w-4xl px-5 sm:px-8">
-          <SectionLabel>06 Questions</SectionLabel>
-          <h2 className="mt-3 font-display text-4xl font-semibold tracking-[-0.04em]">
-            Straight answers.
-          </h2>
-          <div className="mt-8">
-            <FaqList items={homeFaqs} />
-          </div>
-        </div>
-      </section>
-
-      <CtaBand
-        title="Stop making customers search for you."
-        description="Order a card, send us your logo and links, and start handing people something their phone understands."
-      />
+      <section className="owner-section"><div className="growth-container owner-layout"><div className="owner-heading"><MapPin size={32} strokeWidth={1.5} aria-hidden="true" /><p className="growth-eyebrow">A LOCAL PARTNER</p><h2>A real person.<br />Invested in<br /><em>your business.</em></h2></div><div><p className="owner-intro">Hey, I’m Joey. I’m based in Bend, and I help local business owners make their online presence work harder.</p><p>You should know what you’re paying for, who’s doing the work, and what changed this month. That’s how I want to build Maprizz.</p><ul className="owner-promises"><li><Check size={18} aria-hidden="true" />Your Google profile stays in your account.</li><li><Check size={18} aria-hidden="true" />Your domain and content stay yours.</li><li><Check size={18} aria-hidden="true" />Clear deliverables, without ranking guarantees.</li></ul><a href="mailto:hello@maprizz.com" className="text-link">Talk to Joey <ArrowRight size={16} aria-hidden="true" /></a></div></div></section>
+      <section className="growth-section cards-section" id="cards"><div className="growth-container"><div className="section-heading"><div><p className="growth-eyebrow">SMALL CARD. USEFUL CONNECTION.</p><h2>Make a great<br /><em>last impression.</em></h2></div><div><p>Just need a tap card or review stand? Keep it simple with a one-time purchase. No monthly plan required.</p><Link href="/demo" className="text-link mt-5">Try the interactive demo <ArrowRight size={16} aria-hidden="true" /></Link></div></div><ProductGrid /></div></section>
+      <section className="growth-section faq-section"><div className="growth-container faq-layout"><div><p className="growth-eyebrow">BEFORE WE GET STARTED</p><h2>Good questions.<br /><em>Straight answers.</em></h2><a href="mailto:hello@maprizz.com" className="text-link mt-6">Ask Joey a question <ArrowRight size={16} aria-hidden="true" /></a></div><FaqList items={servicesFaqs} /></div></section>
+      <section className="final-audit"><div className="growth-container"><p className="growth-eyebrow">LET’S MAKE YOUR BUSINESS EASIER TO CHOOSE</p><h2>You handle the work.<br /><span>We’ll help you get noticed.</span></h2><p>Start with a free review of your Google profile and website.</p><ButtonLink href="/audit" variant="dark" size="lg">Get my free business audit <ArrowRight size={18} aria-hidden="true" /></ButtonLink><small>No obligation. Just a useful place to start.</small></div></section>
     </MarketingShell>
   );
 }
