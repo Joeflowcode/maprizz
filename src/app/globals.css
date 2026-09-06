@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Brand palette. Change these values to re-theme the whole site.
+  All pairings below meet WCAG AA:
+    accent on ink 8.0 · ink on accent 8.0 · cream on brand 10 · mist on brand 5.5
+    mist on ink 9.3 · stone on cream 6.5 · brand on cream 10
+  Also update: src/lib/theme.ts (OG image, theme-color, email) and src/app/icon.svg.
+*/
+@theme {
+  --color-ink: #16120e; /* deep warm charcoal — primary dark surface */
+  --color-ink-soft: #211c16; /* raised surfaces on dark */
+  --color-brand: #632c10; /* deep rust — secondary dark surface + accent text on cream */
+  --color-cream: #f7f3ec; /* warm off-white — primary light surface */
+  --color-cream-deep: #ede5d8; /* alternate light surface */
+  --color-accent: #ff8b3d; /* tangerine — CTAs, highlights */
+  --color-accent-deep: #f0742a; /* accent hover */
+  --color-mist: #bdb5a9; /* muted text on dark */
+  --color-stone: #5d564d; /* muted text on light */
+
+  /* Inter by default; Apple devices switch to San Francisco below (see @supports). */
+  --font-display: var(--font-inter), "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+  --font-body: var(--font-inter), "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --shadow-lift: 0 30px 80px -30px rgb(22 18 14 / 0.45);
+
+  --animate-rise: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-ticker: ticker 48s linear infinite;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes ticker {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+/*
+  Apple's San Francisco. SF Pro can't be embedded on the web, and Chromium on other
+  platforms hijacks `-apple-system` as "OS default font" (swallowing the fallback),
+  so we only switch to it where WebKit is present: iPhone, iPad, and Safari on Mac.
+*/
+@supports (font: -apple-system-body) {
+  :root {
+    --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, var(--font-inter), sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, var(--font-inter), sans-serif;
+    --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, var(--font-jetbrains-mono), monospace;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  @apply bg-cream text-ink font-body antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-deep);
+  outline-offset: 3px;
+}
+
+.bg-ink :focus-visible,
+.bg-ink-soft :focus-visible,
+.bg-brand :focus-visible {
+  outline-color: var(--color-accent);
+}
+
+/* Emphasis for the one phrase that matters. Color comes from the utility alongside it. */
+.em {
+  font-weight: 600;
+}
+
+/* Mono "chrome" label used for eyebrows, indices and metadata. */
+.label {
+  @apply font-mono text-[11px] font-medium uppercase tracking-[0.16em];
+}
+
+.field-label {
+  @apply mb-1.5 block text-sm font-medium text-ink;
+}
+
+.field-input {
+  @apply w-full rounded-xl border border-ink/20 bg-white px-4 py-3 text-[16px] text-ink placeholder:text-stone/60 transition-[border-color,box-shadow] focus:border-ink focus:shadow-[0_0_0_3px_rgb(255_139_61/0.25)] focus:outline-none;
+}
+
+/* Hairline rules */
+.rule {
+  @apply border-t border-ink/15;
+}
+.rule-light {
+  @apply border-t border-cream/15;
+}
+
+/* Fine film grain for dark surfaces. Pure CSS, ~1KB, no request. */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.grain > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Soft accent glow for dark hero/CTA surfaces. Subtle by design. */
+.surface-glow {
+  background: radial-gradient(ellipse 70% 60% at 85% 0%, rgb(255 139 61 / 0.14), transparent 70%);
+}
+
+.ticker {
+  display: flex;
+  width: max-content;
+  animation: var(--animate-ticker);
+}
+.ticker:hover {
+  animation-play-state: paused;
+}
+
+.rise {
+  animation: var(--animate-rise);
+}
+.rise-2 {
+  animation: var(--animate-rise);
+  animation-delay: 120ms;
+}
+.rise-3 {
+  animation: var(--animate-rise);
+  animation-delay: 240ms;
+}
+
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .faq-icon {
+  transform: rotate(45deg);
+}
+.faq-icon {
+  transition: transform 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .ticker {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+  }
+  .rise,
+  .rise-2,
+  .rise-3,
+  .faq-icon {
+    animation: none !important;
+    transition: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
