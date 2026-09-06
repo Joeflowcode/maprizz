@@ -30,7 +30,7 @@ export const products = [
     cadence: "one time",
     description:
       "An NFC card that opens your mobile digital business profile.",
-    badge: "Most popular",
+    badge: "Digital profile",
     cta: "Build My Card",
     href: "/order?package=smart_card",
     features: [
@@ -70,62 +70,56 @@ export const products = [
 export const servicePlans = [
   {
     id: "gbp" as const,
-    name: "Google Business Profile",
-    price: 149,
-    priceLabel: "$149",
-    cadence: "/ month",
-    note: "Month to month. Cancel any time. Setup included.",
+    name: "Google Foundations",
+    price: 299,
+    priceLabel: "$299",
+    cadence: "/mo",
+    note: "Setup included. Month to month.",
     badge: null as string | null,
-    description:
-      "We run your Google listing so you show up first and look like the obvious choice.",
+    description: "For businesses that need a complete, active Google presence.",
     href: "/audit?plan=gbp",
     features: [
-      "Full profile optimization: categories, services, hours, description, photos",
-      "Weekly Google posts and fresh photos",
-      "Replies to every review within 48 hours, in your voice",
-      "Q&A monitoring and spam-review reporting",
-      "Google review stand included, with review-link tap tracking",
-      "Monthly report: calls, direction requests, website clicks, review-link taps",
+      "One Google Business Profile optimized and maintained",
+      "4 posts per month using your updates and photos",
+      "Up to 20 review replies per month",
+      "One Google review stand + review-link setup",
+      "Monthly report on available profile activity",
     ],
   },
   {
     id: "website" as const,
     name: "Website + Local SEO",
-    price: 299,
-    priceLabel: "$299",
-    cadence: "/ month",
-    note: "Site build included. 6-month minimum, then month to month. You own the domain and content.",
+    price: 599,
+    priceLabel: "$599",
+    cadence: "/mo",
+    note: "Build included. 6-month initial term.",
     badge: null,
-    description:
-      "A fast, mobile-first website built for your trade, kept current and tuned to rank in your service area.",
+    description: "For businesses ready for a website that makes the next step easy.",
     href: "/audit?plan=website",
     features: [
-      "New website designed and built in the first 30 days",
-      "Hosting, SSL, backups and updates handled",
-      "Unlimited small edits: prices, photos, hours, new services",
-      "Local SEO: a page for each service and each town you serve",
-      "Click-to-call, booking and review links wired to your Maprizz card",
-      "Monthly report: search rankings, visitors, calls and form fills",
+      "Custom mobile-friendly website, up to 5 pages",
+      "Hosting, SSL, and maintenance included",
+      "Service and service-area content within the page allowance",
+      "Up to 2 small content edits per month",
+      "Call, quote, and booking links + available analytics",
     ],
   },
   {
     id: "growth" as const,
-    name: "Growth Plan",
-    price: 399,
-    priceLabel: "$399",
-    cadence: "/ month",
-    note: "6-month minimum, then month to month. Saves $49/month versus the two plans separately.",
-    badge: "Best value",
-    description:
-      "Everything in both plans, plus the hardware. One partner for how customers find, contact and review you.",
+    name: "Local Growth",
+    price: 799,
+    priceLabel: "$799",
+    cadence: "/mo",
+    note: "Setup + build included. 6-month initial term.",
+    badge: "The complete plan",
+    description: "Your Google presence, website, and review tools. One local partner.",
     href: "/audit?plan=growth",
     features: [
-      "Everything in Google Business Profile",
+      "Everything in Google Foundations",
       "Everything in Website + Local SEO",
-      "Business Kit included: Smart Business Card + review stand",
-      "Extra cards for your crew at cost",
-      "Quarterly strategy call: what to fix, what to double down on",
-      "Priority support, same-day replies",
+      "Smart business card + review stand included",
+      "One new or improved service page per month",
+      "Monthly 30-minute progress and priorities call",
     ],
   },
 ] as const;
@@ -144,7 +138,7 @@ export const homeFaqs = [
   {
     question: "Can Maprizz tell me how many Google reviews I got?",
     answer:
-      "No, and we won't pretend otherwise. Google doesn't share that with anyone. Maprizz tracks how many people tapped your review link, which is a strong signal, and you can watch your review count on Google itself.",
+      "A tap is not a completed review. Review-link taps and changes in your visible Google review count are different measures; we report them separately where available.",
   },
   {
     question:
@@ -178,12 +172,12 @@ export const servicesFaqs = [
   {
     question: "Do I need a monthly plan to use the cards?",
     answer:
-      "No. The Tap Card, Smart Business Card and Business Kit are one-time purchases and keep working forever. Plans are for businesses that want Maprizz to actively run their Google presence or website.",
+      "No. The Tap Card, Smart Business Card and Business Kit are one-time purchases and do not require a monthly service plan. Plans are for businesses that want Maprizz to actively run their Google presence or website.",
   },
   {
     question: "Am I locked into a contract?",
     answer:
-      "The Google Business Profile plan is month to month from day one. Website plans have a 6-month minimum because we build the site up front; after that, month to month. Cancel by email, no hoops.",
+      "Google Foundations is month to month from day one. Website plans have a 6-month minimum because we build the site up front; after that, month to month. Cancel by email, no hoops.",
   },
   {
     question: "Who owns the website and the Google profile?",
@@ -193,16 +187,16 @@ export const servicesFaqs = [
   {
     question: "Can you guarantee rankings or a number of reviews?",
     answer:
-      "No, and anyone who does is guessing. We can guarantee the work gets done every month and show you the numbers Google reports. Most local businesses see the biggest change simply from a complete, active profile and an easy way to ask for reviews.",
+      "No. Rankings depend on factors such as relevance, distance, and competition. We commit to the work in your plan and report the metrics available to us. Review-link taps are not the same as completed reviews or booked jobs.",
   },
 ] as const;
 
 export const auditInterests = [
   { value: "unsure", label: "Not sure yet, just want the audit" },
   { value: "cards", label: "NFC cards / review stand only" },
-  { value: "gbp", label: "Google Business Profile plan ($149/mo)" },
-  { value: "website", label: "Website + Local SEO plan ($299/mo)" },
-  { value: "growth", label: "Growth Plan ($399/mo)" },
+  { value: "gbp", label: "Google Foundations ($299/mo)" },
+  { value: "website", label: "Website + Local SEO ($599/mo)" },
+  { value: "growth", label: "Local Growth ($799/mo)" },
 ] as const;
 
 export function getProduct(id: ProductPackage) {

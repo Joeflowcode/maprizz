@@ -1,9 +1,9 @@
 export const site = {
   name: "Maprizz",
   legalName: "Maprizz",
-  tagline: "Tap. Get found. Get reviews. Get customers.",
+  tagline: "Get found. Build trust. Grow locally.",
   description:
-    "Smart NFC business cards, Google review stands and digital profiles that help local businesses turn real-world conversations into customers.",
+    "Google Business Profile management, websites, local SEO, and review tools for local businesses. Based in Bend, Oregon. Start with a free business audit.",
   url: "https://maprizz.com",
   domain: "maprizz.com",
   email: "hello@maprizz.com",
@@ -25,11 +25,10 @@ export const site = {
 } as const;
 
 export const navLinks = [
+  { href: "/#services", label: "What we do" },
   { href: "/#how-it-works", label: "How it works" },
-  { href: "/demo", label: "Demo" },
-  { href: "/#pricing", label: "Pricing" },
-  { href: "/services", label: "Monthly plans" },
-  { href: "/audit", label: "Free audit" },
+  { href: "/#pricing", label: "Monthly plans" },
+  { href: "/#cards", label: "Tap cards" },
 ] as const;
 
 export const industries = [

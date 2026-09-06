@@ -17,13 +17,13 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Maprizz | NFC Business Cards & Google Review Stands",
+    default: "Maprizz | Local Marketing, Websites & Google Business Profiles",
     template: "%s | Maprizz",
   },
   description: site.description,
   applicationName: site.name,
   openGraph: {
-    title: "Maprizz | NFC Business Cards & Google Review Stands",
+    title: "Maprizz | Local Marketing, Websites & Google Business Profiles",
     description: site.description,
     url: site.url,
     siteName: site.name,
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Maprizz | NFC Business Cards & Google Review Stands",
+    card: "summary",
+    title: "Maprizz | Local Marketing, Websites & Google Business Profiles",
     description: site.description,
   },
 };

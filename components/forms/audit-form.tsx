@@ -1,155 +1,85 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
+import { ArrowRight, Check, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { auditInterests } from "@/lib/catalog";
 import { site } from "@/lib/site";
 
-type AuditFormProps = {
-  defaultInterest?: string;
-};
+export function AuditForm({ defaultInterest = "unsure" }: { defaultInterest?: string }) {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const statusRef = useRef<HTMLDivElement>(null);
+  const inFlight = useRef(false);
+  const selectedInterest = auditInterests.some((item) => item.value === defaultInterest) ? defaultInterest : "unsure";
 
-export function AuditForm({ defaultInterest = "unsure" }: AuditFormProps) {
-  const [submitted, setSubmitted] = useState(false);
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (inFlight.current) return;
+    const data = new FormData(event.currentTarget);
+    if (data.get("company")) return;
+    inFlight.current = true;
+    setStatus("sending");
+    const body = new URLSearchParams();
+    data.forEach((value, key) => { if (typeof value === "string") body.set(key, value); });
+    try {
+      const response = await fetch("/__forms.html", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+        signal: AbortSignal.timeout(15000),
+      });
+      // Netlify returns its success page after processing. A static/preview host
+      // may incorrectly return our form skeleton with HTTP 200; that is not a lead.
+      const responseBody = await response.text();
+      if (!response.ok || responseBody.includes("maprizz-form-skeleton")) throw new Error("Request not accepted");
+      setStatus("success");
+      requestAnimationFrame(() => statusRef.current?.focus());
+    } catch {
+      setStatus("error");
+      requestAnimationFrame(() => statusRef.current?.focus());
+    } finally {
+      inFlight.current = false;
+    }
+  }
 
   return (
-    <form
-      className="rounded-3xl border border-ink/10 bg-white/70 p-6 shadow-sm sm:p-8"
-      onSubmit={(event) => {
-        event.preventDefault();
-        setSubmitted(true);
-      }}
-    >
-      {submitted ? (
-        <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6 text-emerald-900">
-          <h2 className="font-display text-2xl font-semibold tracking-tight">
-            Request received
-          </h2>
-          <p className="mt-3 text-[15px] leading-relaxed">
-            Thanks — we&apos;ll review your Google Business Profile and website and
-            reply with the fixes that matter most.
-          </p>
+    <form name="business-audit" method="POST" action="/__forms.html" data-netlify="true" data-netlify-honeypot="company" className="rounded-xl border border-ink/10 bg-white p-6 sm:p-8" onSubmit={handleSubmit}>
+      <input type="hidden" name="form-name" value="business-audit" />
+      {status === "success" ? (
+        <div ref={statusRef} tabIndex={-1} role="status" className="rounded-lg bg-cream-deep p-6">
+          <Check className="mb-4 h-7 w-7" aria-hidden="true" />
+          <h2 className="text-2xl font-semibold tracking-tight">Your audit request is in.</h2>
+          <p className="mt-3 text-base leading-relaxed text-stone">Thanks for sharing your business. Joey will review your Google presence and website, then follow up at the email you provided.</p>
+          <Link href="/services" className="text-link mt-5">Explore monthly plans <ArrowRight size={16} aria-hidden="true" /></Link>
         </div>
       ) : (
         <div className="grid gap-5">
-          <Field id="business_name" label="Business name" required />
-          <Field id="contact_name" label="Your name" required />
-          <Field id="email" label="Email" type="email" required />
-          <Field id="phone" label="Phone (optional)" />
-          <Field id="website" label="Website (optional)" />
-          <div>
-            <label htmlFor="google_business_url" className="field-label">
-              Google Business Profile URL (optional)
-            </label>
-            <input
-              id="google_business_url"
-              name="google_business_url"
-              className="field-input"
-              placeholder="https://maps.google.com/..."
-            />
-            <p id="google_business_url-hint" className="mt-2 text-sm text-stone">
-              Search your business on Google Maps and paste the link.
-            </p>
-          </div>
-          <div>
-            <label htmlFor="interest" className="field-label">
-              What are you looking for?
-            </label>
-            <select
-              id="interest"
-              name="interest"
-              defaultValue={defaultInterest}
-              className="field-input"
-            >
-              {auditInterests.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <p id="interest-hint" className="mt-2 text-sm text-stone">
-              Helps us focus the audit. You can change your mind.
-            </p>
-          </div>
-          <div>
-            <label htmlFor="notes" className="field-label">
-              Anything we should know? (optional)
-            </label>
-            <textarea id="notes" name="notes" rows={4} className="field-input resize-y" />
-          </div>
-          <input
-            id="company"
-            name="company"
-            tabIndex={-1}
-            autoComplete="off"
-            className="-left-[9999px] absolute h-px w-px opacity-0"
-            aria-hidden="true"
-          />
-          <Button type="submit" size="lg" className="w-full sm:w-auto">
-            Get My Free Audit
-          </Button>
-          <p className="text-sm text-stone">
-            We only use this to reply to you.{" "}
-            <Link href="/privacy" className="font-semibold text-brand hover:underline">
-              Privacy
-            </Link>
-          </p>
+          <div><p className="growth-eyebrow">YOUR FREE BUSINESS AUDIT</p><h2 className="mt-2 text-2xl font-semibold tracking-tight">Tell us where to look.</h2><p className="mt-2 text-base text-stone">A few details are all we need to get started.</p></div>
+          <Field id="business_name" label="Business name" required autoComplete="organization" maxLength={160} />
+          <Field id="city" label="City or service area" placeholder="Bend, Oregon" required maxLength={160} />
+          <div className="grid gap-5 sm:grid-cols-2"><Field id="contact_name" label="Your name" required autoComplete="name" maxLength={120} /><Field id="email" label="Email" type="email" required autoComplete="email" maxLength={254} /></div>
+          <Field id="website" label="Website or Google Maps link (optional)" placeholder="Your website or business listing" maxLength={2000} />
+          <div><label htmlFor="interest" className="field-label">What would you like help with?</label><select id="interest" name="interest" defaultValue={selectedInterest} className="field-input">{auditInterests.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></div>
+          <details className="rounded-lg border border-ink/10 p-4"><summary className="cursor-pointer font-medium">Add a phone number or more details <span aria-hidden="true">+</span></summary><div className="mt-4 grid gap-5"><Field id="phone" label="Phone (optional)" type="tel" autoComplete="tel" maxLength={40} /><div><label htmlFor="notes" className="field-label">Anything else we should know? (optional)</label><textarea id="notes" name="notes" rows={3} maxLength={3000} className="field-input resize-y" /></div></div></details>
+          <p hidden><label>Leave this empty<input name="company" tabIndex={-1} autoComplete="off" /></label></p>
+          {status === "error" && <div ref={statusRef} tabIndex={-1} role="alert" className="rounded-lg border border-red-200 bg-red-50 p-4 text-base text-red-900">We couldn’t confirm your request. Your details are still here—please try again, or email <a href={`mailto:${site.email}?subject=Free%20business%20audit`} className="font-semibold underline">{site.email}</a>.</div>}
+          <Button type="submit" size="lg" disabled={status === "sending"} aria-busy={status === "sending"} className="w-full">{status === "sending" ? <><LoaderCircle size={18} className="animate-spin" aria-hidden="true" /> Sending your request…</> : <>Get my free audit <ArrowRight size={18} aria-hidden="true" /></>}</Button>
+          <p className="text-sm leading-relaxed text-stone">We use your details to respond to this request. No obligation to buy. <Link href="/privacy" className="font-semibold text-brand underline">Privacy policy</Link></p>
         </div>
       )}
     </form>
   );
 }
 
-function Field({
-  id,
-  label,
-  type = "text",
-  required = false,
-}: {
-  id: string;
-  label: string;
-  type?: string;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="field-label">
-        {label}
-      </label>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        required={required}
-        className="field-input"
-      />
-    </div>
-  );
+function Field({ id, label, type = "text", required = false, autoComplete, placeholder, maxLength }: { id: string; label: string; type?: string; required?: boolean; autoComplete?: string; placeholder?: string; maxLength?: number }) {
+  return <div><label htmlFor={id} className="field-label">{label}</label><input id={id} name={id} type={type} required={required} autoComplete={autoComplete} placeholder={placeholder} maxLength={maxLength} className="field-input" /></div>;
 }
 
 export function AuditBullets() {
-  const bullets = [
-    "A real person looks at your Google Business Profile and website.",
-    "You get a short list of the fixes that matter most, in plain language.",
-    "No automated score. No pressure. No obligation to buy anything.",
-  ];
-
-  return (
-    <ul className="space-y-3 text-[15px] leading-relaxed text-stone">
-      {bullets.map((bullet) => (
-        <li key={bullet} className="flex gap-3">
-          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-          <span>{bullet}</span>
-        </li>
-      ))}
-      <li className="text-sm text-stone">
-        Questions? Email{" "}
-        <a href={`mailto:${site.email}`} className="font-semibold text-brand hover:underline">
-          {site.email}
-        </a>
-        .
-      </li>
-    </ul>
-  );
+  return <div className="pt-2"><p className="growth-eyebrow mb-5">WHAT WE’LL LOOK AT</p><ul className="space-y-6 text-base leading-relaxed text-stone">{[
+    ["Your Google presence", "Your business details, services, photos, and how easy you are to contact."],
+    ["Your website", "Your mobile experience, service information, and the steps to request a quote."],
+    ["Your review process", "How customers find your review link and whether your recent reviews get a response."],
+  ].map(([title, copy]) => <li key={title} className="flex gap-3"><Check size={18} className="mt-1 shrink-0" aria-hidden="true" /><div><strong className="font-semibold text-ink">{title}</strong><p className="mt-1">{copy}</p></div></li>)}</ul><p className="mt-8 text-base leading-relaxed text-stone">Joey personally reviews your business and sends back the priorities. No Google login or payment details needed.</p><a href={`mailto:${site.email}`} className="text-link mt-6">{site.email}</a></div>;
 }

@@ -13,13 +13,13 @@ export function SiteFooter() {
           <div className="lg:col-span-1">
             <p className="label text-stone">{site.tagline}</p>
             <p className="mt-3 max-w-sm text-[15px] leading-relaxed text-stone">
-              Hand them your card. Let their phone do the rest.
+              A stronger Google presence, a better website, and a local partner who knows your name.
             </p>
-            <ButtonLink href="/order" className="mt-6" size="md">
-              {site.cta.primary}
+            <ButtonLink href="/audit" className="mt-6" size="md">
+              Get my free audit
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </ButtonLink>
-            <p className="mt-4 text-sm text-stone">{site.compatibility}</p>
+            <p className="mt-4 text-sm text-stone">Based in Bend. Working with local businesses.</p>
           </div>
 
           <div>

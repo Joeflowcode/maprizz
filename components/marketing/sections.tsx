@@ -28,7 +28,7 @@ export function ProductGrid({ highlight }: { highlight?: ProductPackage }) {
           <h3 className="font-display text-2xl font-semibold tracking-[-0.03em]">
             {product.name}
           </h3>
-          <p className="mt-2 text-[15px] leading-relaxed text-stone">
+          <p className="mt-2 text-base leading-relaxed text-stone">
             {product.description}
           </p>
           <p className="mt-6 font-display text-4xl font-semibold tracking-tight">
@@ -37,7 +37,7 @@ export function ProductGrid({ highlight }: { highlight?: ProductPackage }) {
               {product.cadence}
             </span>
           </p>
-          <ul className="mt-6 flex-1 space-y-2 text-[15px] text-stone">
+          <ul className="mt-6 flex-1 space-y-2 text-base text-stone">
             {product.features.map((feature) => (
               <li key={feature} className="flex gap-2">
                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
@@ -57,44 +57,17 @@ export function ProductGrid({ highlight }: { highlight?: ProductPackage }) {
 
 export function ServicePlanGrid({ highlight }: { highlight?: ServicePlan }) {
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
+    <div className="plan-grid">
       {servicePlans.map((plan) => (
-        <article
-          key={plan.id}
-          className={cn(
-            "relative flex flex-col rounded-3xl border border-ink/10 bg-white/70 p-7 shadow-sm",
-            highlight === plan.id && "border-accent ring-1 ring-accent/30",
-          )}
-        >
-          {plan.badge ? (
-            <span className="label absolute -top-3 left-6 rounded-full bg-accent px-3 py-1 text-ink">
-              {plan.badge}
-            </span>
-          ) : null}
-          <p className="label text-stone">Monthly plan</p>
-          <h3 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em]">
-            {plan.name}
-          </h3>
-          <p className="mt-2 text-[15px] leading-relaxed text-stone">
-            {plan.description}
-          </p>
-          <p className="mt-6 font-display text-4xl font-semibold tracking-tight">
-            {plan.priceLabel}
-            <span className="text-base font-medium text-stone">{plan.cadence}</span>
-          </p>
-          <p className="mt-2 text-sm text-stone">{plan.note}</p>
-          <ul className="mt-6 flex-1 space-y-2 text-[15px] text-stone">
-            {plan.features.map((feature) => (
-              <li key={feature} className="flex gap-2">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-          <ButtonLink href={plan.href} className="mt-8 w-full">
-            Start with a free audit
-            <ArrowRight className="h-4 w-4" />
-          </ButtonLink>
+        <article key={plan.id} className={cn("plan-card", plan.id === "growth" && "plan-featured", highlight === plan.id && "plan-selected")}>
+          <p className="plan-tag">{plan.badge ?? "A focused starting point"}</p>
+          <h3>{plan.name}</h3>
+          <p className="plan-description">{plan.description}</p>
+          <p className="plan-price">{plan.priceLabel}<span>{plan.cadence}</span></p>
+          <p className="plan-terms">{plan.note}</p>
+          <ButtonLink href={plan.href} variant={plan.id === "growth" ? "primary" : "secondary"} className="w-full">Get my free audit <ArrowRight size={17} aria-hidden="true" /></ButtonLink>
+          <p className="plan-included">WHAT’S INCLUDED</p>
+          <ul>{plan.features.map((feature) => <li key={feature}><Check size={17} aria-hidden="true" /><span>{feature}</span></li>)}</ul>
         </article>
       ))}
     </div>
@@ -119,7 +92,7 @@ export function FaqList({
             </span>
             <span className="faq-icon text-2xl leading-none text-accent">+</span>
           </summary>
-          <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-stone">
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-stone">
             {item.answer}
           </p>
         </details>
@@ -186,7 +159,7 @@ export function LegalDocument({
           {title}
         </h1>
         <p className="mt-3 text-stone">Last updated {updated}</p>
-        <div className="prose-legal mt-10 space-y-8 text-[15px] leading-relaxed text-stone [&_a]:font-semibold [&_a]:text-brand [&_a]:underline-offset-4 hover:[&_a]:underline [&_h2]:border-t [&_h2]:border-ink/15 [&_h2]:pt-6 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-[-0.02em] [&_h2]:text-ink [&_p+p]:mt-4 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6">
+        <div className="prose-legal mt-10 space-y-8 text-base leading-relaxed text-stone [&_a]:font-semibold [&_a]:text-brand [&_a]:underline-offset-4 hover:[&_a]:underline [&_h2]:border-t [&_h2]:border-ink/15 [&_h2]:pt-6 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-[-0.02em] [&_h2]:text-ink [&_p+p]:mt-4 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6">
           {children}
         </div>
       </div>
